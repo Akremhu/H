@@ -97,3 +97,77 @@
       <textarea id="message" name="message" rows="5" required placeholder="اكتب رسالتك هنا..."></textarea>
 
       <button
+        type="submit">إرسال</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2024 مستشفى السلام. جميع الحقوق محفوظة.
+  </footer>
+
+  <script>
+    // تحقق وتفاعل نموذج التواصل
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = this.name.value.trim();
+      const email = this.email.value.trim();
+      const message = this.message.value.trim();
+
+      if (!name || !email || !message) {
+        alert('يرجى ملء جميع الحقول.');
+        return;
+      }
+
+      const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      if (!emailPattern.test(email)) {
+        alert('يرجى إدخال بريد إلكتروني صالح.');
+        return;
+      }
+
+      alert(`شكرًا لك ${name}، تم استلام رسالتك.`);
+      this.reset();
+    });
+
+    // تحقق وتفاعل نموذج حجز المواعيد
+    document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const patientName = this.patientName.value.trim();
+      const phone = this.phone.value.trim();
+      const specialty = this.specialty.value;
+      const date = this.date.value;
+      const time = this.time.value;
+
+      if (!patientName || !phone || !specialty || !date || !time) {
+        alert('يرجى ملء جميع الحقول.');
+        return;
+      }
+
+      const phonePattern = /^[0-9]{9,15}$/;
+      if (!phonePattern.test(phone)) {
+        alert('يرجى إدخال رقم هاتف صالح (9-15 رقم).');
+        return;
+      }
+
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const selectedDate = new Date(date);
+      if (selectedDate < today) {
+        alert('يرجى اختيار تاريخ اليوم أو تاريخ مستقبل.');
+        return;
+      }
+
+      const [hours] = time.split(':').map(Number);
+      if (hours < 8 || hours > 18) {
+        alert('الرجاء اختيار موعد بين 08:00 و 18:00.');
+        return;
+      }
+
+      alert(`شكرًا ${patientName}، تم حجز موعد في تخصص ${specialty} بتاريخ ${date} الساعة ${time}.`);
+      this.reset();
+    });
+  </script>
+</body>
+</html>
+```
+
